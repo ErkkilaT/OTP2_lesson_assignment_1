@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.io.*;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,25 +23,18 @@ class MainTest {
     }
 
 
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
-
-    @BeforeEach
-    void setUp() {
-        System.setOut(new PrintStream(outContent));
-    }
-    @AfterEach
-    void tearDown() {
-        System.setOut(originalOut);
-    }
 
     @Test
-    void mainCalcTest(){
-        String testInput = "1\n2\n10\n1\n5\n2\n";
-        System.setIn(new ByteArrayInputStream(testInput.getBytes()));
-        Main.main(new String[0]);
-        String testOutput = outContent.toString();
-        assertTrue(testOutput.contains("20"));
+    void testCalculateTotal() {
+        // Simulate user input: 2 items -> (10×1) and (5×2)
+        String input = "2\n10\n1\n5\n2\n";
+        Scanner sc = new Scanner(new ByteArrayInputStream(input.getBytes()));
+
+        ResourceBundle rb = ResourceBundle.getBundle("MessagesBundle", new Locale("en", "US"));
+
+        int result = Main.calculateTotal(sc, rb);
+
+        assertEquals(20, result);
     }
 
 }
